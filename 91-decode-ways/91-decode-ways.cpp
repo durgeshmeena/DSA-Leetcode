@@ -23,8 +23,7 @@ public:
                  dp[i] = (val1 > 0 )*dp[i+1] + (val2 > 0 and val2 < 27)*dp[i+2];
             
         }
-        
-        for (auto x:dp) cout << x <<" ";
+
         
         return dp[0];
         

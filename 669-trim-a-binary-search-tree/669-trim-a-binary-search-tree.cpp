@@ -15,25 +15,26 @@ public:
     int high;
     TreeNode* help(TreeNode* root)
     {
-        if (root != NULL){
-            if(root->left==NULL and root->right==NULL ){
-                if (root->val >= low and root->val <= high)return root;
-                return NULL;
-            }
-            if ( root->val < low)
-                root = help(root->right);
-            else if (root->val > high)
-                root = help(root->left);
-            if (root){
-                if (root->left != NULL)
-                    root->left = help(root->left);
-                if (root->right != NULL)
-                    root->right = help(root->right);
-            }
-            
-            return root;
+        if (root == NULL)
+            return NULL;
+
+        // if(root->left==NULL and root->right==NULL ){
+        //     if (root->val >= low and root->val <= high)return root;
+        //     return NULL;
+        // }
+        
+        if ( root->val < low)
+            root = help(root->right);
+        else if (root->val > high)
+            root = help(root->left);
+        if (root){
+            root->left = help(root->left);
+            root->right = help(root->right);
         }
-        return NULL;
+
+        return root;
+
+        
     }
     
     

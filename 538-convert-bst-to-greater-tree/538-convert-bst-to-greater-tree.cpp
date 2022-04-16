@@ -12,22 +12,19 @@
 class Solution {
 public:
     int prev = 0;
-    int helper(TreeNode* root) {
-        if (root == NULL)
-            return prev;
+    
+    void helper(TreeNode* root) {
+        if (root == NULL)return;
         
-        prev = helper(root->right);
+        helper(root->right);
         root->val += prev;
         prev = root->val;
         
-        if (root->left){
-            prev = helper(root->left);
-        }
-        return prev;
+        if (root->left)helper(root->left);
     }
     
     TreeNode* convertBST(TreeNode* root) {
-        int val = helper(root);
+        helper(root);
         return root;
     }
 };

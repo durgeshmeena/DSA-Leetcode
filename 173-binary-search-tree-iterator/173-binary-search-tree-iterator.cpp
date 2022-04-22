@@ -20,7 +20,6 @@ public:
         // head=root;
         v.push_back(-1);
         store(root);
-        sort(v.begin(),v.end());
         v_size = v.size();
         
     }
@@ -28,8 +27,8 @@ public:
     
     void store(TreeNode* root) {
         if (root==NULL)return;
-        v.push_back(root->val);
         store(root->left);
+        v.push_back(root->val);
         store(root->right);
     }
     

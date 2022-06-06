@@ -13,16 +13,17 @@ public:
         int up = find(u);
         int vp = find(v);
         if(up!=vp){
-            int rUP=rank[up];
-            int rVP=rank[vp];
-            if(rUP>rVP)
-                parent[vp]=up;
-            else if(rVP>rUP)
-                parent[up]=vp;
-            else{
-                parent[vp]=up;
-                rank[up]++;    
-            }
+            parent[vp]=up;
+            // int rUP=rank[up];
+            // int rVP=rank[vp];
+            // if(rUP>rVP)
+            //     parent[vp]=up;
+            // else if(rVP>rUP)
+            //     parent[up]=vp;
+            // else{
+            //     parent[vp]=up;
+            //     rank[up]++;    
+            // }
         }
     }
     

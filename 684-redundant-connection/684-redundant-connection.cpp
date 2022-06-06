@@ -9,23 +9,23 @@ public:
         return parent[u] = find(parent[u]);
     }
     
-    void uni(int u, int v){
-        int up = find(u);
-        int vp = find(v);
-        if(up!=vp){
-            parent[vp]=up;
-            // int rUP=rank[up];
-            // int rVP=rank[vp];
-            // if(rUP>rVP)
-            //     parent[vp]=up;
-            // else if(rVP>rUP)
-            //     parent[up]=vp;
-            // else{
-            //     parent[vp]=up;
-            //     rank[up]++;    
-            // }
-        }
-    }
+    // void uni(int u, int v){
+    //     int up = find(u);
+    //     int vp = find(v);
+    //     if(up!=vp){
+    //         parent[vp]=up;
+    //         // int rUP=rank[up];
+    //         // int rVP=rank[vp];
+    //         // if(rUP>rVP)
+    //         //     parent[vp]=up;
+    //         // else if(rVP>rUP)
+    //         //     parent[up]=vp;
+    //         // else{
+    //         //     parent[vp]=up;
+    //         //     rank[up]++;    
+    //         // }
+    //     }
+    // }
     
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         vector<int>ans(2);
@@ -36,9 +36,10 @@ public:
         for(int i=0;i<n;i++){
             int x = find(edges[i][0]);
             int y = find(edges[i][1]);
-            if(x==y)
+            if(x!=y)
+                parent[y]=x;
+            else
                 ans = {edges[i][0],edges[i][1]};
-            uni(edges[i][0],edges[i][1]);
         }
         
         

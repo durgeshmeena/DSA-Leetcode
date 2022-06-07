@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& M) {
         int r=M.size(),c=M[0].size();
-        vector<vector<int>>dist(r,vector<int>(c,INT_MAX));
+        vector<vector<int>>dist(r,vector<int>(c,-1));
         queue<pair<int, int>>q;
         
         for(int i=0;i<r;i++)
@@ -23,13 +23,13 @@ public:
                 int ni,nj;
                 ni = i+dir[k], nj = j+dir[k+1];
                 
-                if(ni<0 || nj<0 || ni>=r || nj>=c)
+                if(ni<0 || nj<0 || ni>=r || nj>=c || dist[ni][nj]!=-1)
                     continue;
                 else {
-                    if(dist[ni][nj] > dist[i][j]+1){
+                    // if(dist[ni][nj] > dist[i][j]+1){
                         dist[ni][nj] = dist[i][j]+1;
                         q.push({ni,nj});
-                    }
+                    // }
                 }
             }
         }

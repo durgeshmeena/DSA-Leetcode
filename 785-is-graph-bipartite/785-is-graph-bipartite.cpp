@@ -23,10 +23,11 @@ public:
         int n = adj.size();
         vector<int>col(n, -1);
         
-        bool flag=true;
+        // bool flag=true;
         for(int i=0; i<n; i++){
             if(col[i]==-1)
-                flag = flag and dfs(i,0, adj, col);
+                if(!dfs(i,0, adj, col)) return false;
+                // flag = flag and dfs(i,0, adj, col);
         }
         
         for(auto c:col)
@@ -34,6 +35,7 @@ public:
         
 
         
-        return flag;
+        // return flag;
+        return true;
     }
 };

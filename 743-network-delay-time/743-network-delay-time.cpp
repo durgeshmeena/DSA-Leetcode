@@ -22,9 +22,9 @@ public:
             pq.pop();
             
             for(auto trg:adj[node.second]){
-                if(dist[trg.first] > dist[node.second]+trg.second){
-                    dist[trg.first] = dist[node.second]+trg.second;
-                    pq.push({trg.second, trg.first});
+                if(dist[trg.first] > node.first+trg.second){
+                    dist[trg.first] = node.first+trg.second;
+                    pq.push({dist[trg.first], trg.first});
                 }
             }
         }

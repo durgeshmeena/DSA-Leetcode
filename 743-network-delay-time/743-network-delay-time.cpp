@@ -4,7 +4,8 @@ public:
     
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         vector<int>dist(n+1,INT_MAX);
-        queue<int>q;
+        // queue<int>q;
+        priority_queue< pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
         
         vector<vector<pair<int,int>>>adj(n+1);
         
@@ -14,22 +15,22 @@ public:
         
      
         dist[k]=0;
-        q.push(k);
+        pq.push({0,k});
         
-        while(!q.empty()) {
-            int node = q.front();
-            q.pop();
+        while(!pq.empty()) {
+            auto node = pq.top();
+            pq.pop();
             
-            for(auto trg:adj[node]){
-                if(dist[trg.first] > dist[node]+trg.second){
-                    dist[trg.first] = dist[node]+trg.second;
-                    q.push(trg.first);
+            for(auto trg:adj[node.second]){
+                if(dist[trg.first] > dist[node.second]+trg.second){
+                    dist[trg.first] = dist[node.second]+trg.second;
+                    pq.push({trg.second, trg.first});
                 }
             }
         }
         
-        for(auto x:dist)
-            cout << x << " ";
+        // for(auto x:dist)
+        //     cout << x << " ";
         
         int ans = *max_element(dist.begin()+1, dist.end());
         return ans==INT_MAX?-1:ans;

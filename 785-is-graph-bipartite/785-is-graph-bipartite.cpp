@@ -2,6 +2,59 @@ class Solution {
 public:
     
     
+    
+    bool isBipartite(vector<vector<int>>& adj) {
+        int n = adj.size();
+        vector<int>color(n, -1);
+        
+        for(int i=0;i<n;i++){
+            if(color[i]!=-1)continue;
+            
+            queue<int>q;
+            q.push(i);
+            color[i]=0;
+            while(!q.empty()){
+                int u=q.front();
+                q.pop();
+                
+                for(auto v:adj[u]){
+                    if(color[v]==-1){
+                        color[v]= color[u]^1;
+                        q.push(v);
+                    }
+                    else{
+                        if(color[u]==color[v])
+                            return false;
+                    }
+                }
+                
+                
+            }
+        }
+        return true;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 //     bool dfs(int u, int color, vector<vector<int>>& adj, vector<int>& col) {
         
 //         col[u] = color;
@@ -33,40 +86,40 @@ public:
     
     
     
-    vector<int>parent;
+//     vector<int>parent;
     
-    bool isBipartite(vector<vector<int>>& adj) {
-        int n = adj.size();
-        parent.resize(n);
-        for(int i=0;i<n;i++)
-            parent[i]=i;
+//     bool isBipartite(vector<vector<int>>& adj) {
+//         int n = adj.size();
+//         parent.resize(n);
+//         for(int i=0;i<n;i++)
+//             parent[i]=i;
         
-        for(int i=0; i<n;i++)
-            for(int j=0; j<adj[i].size(); j++) {
-                if(find(i)==find(adj[i][j]))
-                    return false;
-                uni(adj[i][0],adj[i][j]);
-            }
+//         for(int i=0; i<n;i++)
+//             for(int j=0; j<adj[i].size(); j++) {
+//                 if(find(i)==find(adj[i][j]))
+//                     return false;
+//                 uni(adj[i][0],adj[i][j]);
+//             }
         
-        return true;
+//         return true;
         
-    }
+//     }
     
     
     
-    int find(int u){
-        if(parent[u]==u)return u;
-        else{
-            return parent[u] = find(parent[u]);
-        }
-    }
+//     int find(int u){
+//         if(parent[u]==u)return u;
+//         else{
+//             return parent[u] = find(parent[u]);
+//         }
+//     }
     
-    void uni(int u, int v){
-        int up = find(u);
-        int vp = find(v);
-        if(up!=vp)
-            parent[vp]=up;
-    }
+//     void uni(int u, int v){
+//         int up = find(u);
+//         int vp = find(v);
+//         if(up!=vp)
+//             parent[vp]=up;
+//     }
     
     
 };

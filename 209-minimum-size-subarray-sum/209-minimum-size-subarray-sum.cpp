@@ -12,10 +12,6 @@ public:
                 sum -= nums[i++];
                 
             }
-            
-                
-            cout << sum << " ";
-            
         }
         
         return len==INT_MAX?0:len;

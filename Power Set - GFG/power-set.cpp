@@ -5,27 +5,30 @@ using namespace std;
  // } Driver Code Ends
 class Solution{
 	public:
+	    
+	    vector<string>v;
+	    int n;
+	    string s;
+	    
+	    void dfs(int i, string str){
+	        if(i==n){
+	            v.push_back(str);
+	            return;
+	        }
+	        dfs(i+1, str+s[i]);
+	        dfs(i+1, str);
+	            
+	    }
+	
 		vector<string> AllPossibleStrings(string s){
 		    // Code here
-		    int n = s.size();
-		    vector<string>v;
+		    n = s.size();
+		    this->s = s;
 		    
-		    
-		    int power_set = pow(2, n);
-		    
-		    for(int i=0; i<power_set; i++){
-		        
-		        string str = "";
-		        for(int j=0; j<n; j++){
-		            if(i & (1<<j))
-		                str += s[j];
-		        }
-		        if(str.length())
-		            v.push_back(str);
-		        
-		    }
+		    dfs(0,"");
 		    sort(v.begin(), v.end());
-		    return v;
+		    vector<string> u(v.begin()+1, v.end());
+		    return u;
 		    
 		}
 };

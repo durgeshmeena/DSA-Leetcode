@@ -26,16 +26,24 @@ public:
         
     }
     
+    int count_1(int num){
+        int cnt=0;
+        int n = 1LL*num;
+        for(long long i=1; i<=n; i*=10){
+            cnt += ( (n/(10*i))*i + min( max(n%(10*i)-i+1 ,0LL) ,i) );
+        }
+        return cnt;
+    }
+    
     int countDigitOne(int num) {
         if(num==0)
             return 0;
         
-        this->s = to_string(num);
-        this->n = s.size();
+        return count_1(num);
         
-        memset(DP, -1, sizeof(DP));
-        
-        return solve(0,0,false);
-        // return 0;
+        // this->s = to_string(num);
+        // this->n = s.size();
+        // memset(DP, -1, sizeof(DP));
+        // return solve(0,0,false);
     }
 };

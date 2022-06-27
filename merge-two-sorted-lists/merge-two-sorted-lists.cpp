@@ -22,7 +22,7 @@ public:
         
         ListNode* node = list;
         ListNode* nxt = list->next;
-        node->next=NULL;
+        // node->next=NULL;
         
         node->next = insert(l, nxt);
         return node;
@@ -37,8 +37,8 @@ public:
         
         ListNode* l1 = list1, *nl1 = list1->next;
         ListNode* l2 = list2, *nl2 = list2->next;
-        l1->next = NULL;
-        l2->next = NULL;
+        // l1->next = NULL;
+        // l2->next = NULL;
         
         ListNode* m = mergeTwoLists(nl1, nl2);
         

@@ -7,13 +7,13 @@ public:
         vector<int>dir = {0,-1,0,1,0};
         queue< vector<int> > q;
         q.push({i,j});
-        
+        B[i][j] = '0';
         while(!q.empty()){
             int sz = q.size();
             for(int s=0; s<sz; s++){
                 vector<int>v = q.front();
                 int i1 = v[0], j1 = v[1];
-                B[i1][j1] = '0';
+                // B[i1][j1] = '0';
                 q.pop();
                 for(int k=0; k<4; k++){
                     int i2 = i1+dir[k], j2 = j1+dir[k+1];

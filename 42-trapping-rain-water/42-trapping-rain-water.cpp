@@ -1,25 +1,29 @@
 class Solution {
 public:
-    int trap(vector<int>& height) {
-        int n = height.size();
-        
-        vector<int> prefix(n,height[0]), suffix(n, height[n-1]);
-        
-        for(int i=1; i<n; i++){
-            prefix[i] = max(prefix[i-1], height[i]);
-        }
-        
-        for(int i=n-2; i>=0; i--){
-            suffix[i] = max(suffix[i+1], height[i]);
-        } 
-        
-        int ans=0;
+    int trap(vector<int>& arr) {
+        int n = arr.size();
+        int water = 0;
+        stack<int> st;
         
         for(int i=0; i<n; i++){
-            int mn = min(prefix[i], suffix[i]);
-            ans += (mn-height[i])>0 ?mn-height[i]:0;
+            
+            while(!st.empty() && arr[i] > arr[st.top()]){
+                int curr = st.top(); st.pop();
+                
+                if(st.empty()==false){
+                    int dist = i-st.top()-1;
+                    int left = st.top(), right = i;
+                    
+                    water += (min(arr[left], arr[right])-arr[curr])*dist;
+                }
+            }
+            st.push(i);
+            
+            cout << water <<" ";
+            
         }
+        return water;
         
-        return ans;
+        
     }
 };

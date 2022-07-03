@@ -1,43 +1,19 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& arr) {
-        int n = arr.size(), dist;
+    int largestRectangleArea(vector<int>& height) {
+        int n = height.size();
         stack<int> st;
-        vector<int>area(n);
+        int area = 0;
         
-        auto print = [&](){
-            for(auto x:area)
-                cout << x <<" ";
-            cout <<"\n";
-        };
-        
-        for(int i=n-1; i>=0; i--){
-            while(!st.empty() && arr[i] <= arr[st.top()]){
-                area[st.top()] += arr[st.top()]*(st.top()-i-1);
-                st.pop();
-                // print();
+        for(int i=n-1; i>-2; i--){
+            while(st.size() && ( i<0 || height[i] < height[st.top()])){
+                int h = height[st.top()]; st.pop();
+                int w = st.empty() ? n-i-1 : st.top()-i-1;
+                area = max(area, h*w);
             }
-            if(st.empty())
-                dist = n-i;
-            else
-                dist = st.top()-i;
-            
-            area[i] = arr[i]*dist;
             st.push(i);
-            
-            // print();
-            
         }
         
-        int i = st.top();
-        while(!st.empty()){
-            area[st.top()] += arr[st.top()]*(st.top()-i);
-                st.pop();
-                // print();
-        }
-        
-        print();
-        return *max_element(area.begin(), area.end());
-        
+        return area;
     }
 };

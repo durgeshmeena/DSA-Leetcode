@@ -1,18 +1,17 @@
 class Solution {
 public:
     int findJudge(int n, vector<vector<int>>& trust) {
-        vector<vector<int>> point(n+1, vector<int>(2,0));        
-        for(auto t:trust){
-            point[t[1]][0]++;
-            point[t[0]][1] = t[1];
+        vector<int>score(n+1);
+        
+        for(auto v:trust){
+            score[v[0]]--;
+            score[v[1]]++;
         }
         
-        for(int i=1; i<=n; i++){
-            if(point[i][0]==n-1 and point[i][1]==0)
-                return i;
-        }     
-                                  
-        return -1; 
+        auto it = max_element(score.begin()+1, score.end());
+        
+        return *it != n-1 ? -1 : it - score.begin();
+        
+        
     }
-                                  
 };

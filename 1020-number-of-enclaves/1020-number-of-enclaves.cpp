@@ -1,38 +1,37 @@
 class Solution {
 public:
     int m,n;
-    void dfs(int i, int j, vector<vector<int>>& A){
-        if(i<0 or j<0 or i>=m or j>=n)return;
-        if(A[i][j]!=1)return;
+    
+    void DFS(int i, int j, vector<vector<int>>& grid){
+        if(i<0 || j<0 || i>=m || j>=n || grid[i][j] != 1)
+            return;
         
-        A[i][j]=-1;
+        grid[i][j] = 0;
         
-        dfs(i,j-1,A);
-        dfs(i,j+1,A);
-        dfs(i-1,j,A);
-        dfs(i+1,j,A);
-        
+        DFS(i-1, j, grid); DFS(i+1, j, grid);
+        DFS(i, j-1, grid); DFS(i, j+1, grid);
         
     }
     
-    int numEnclaves(vector<vector<int>>& A) {
-        m = A.size();
-        n = A[0].size();
-           
-        for(int i=0; i<m; i++)
-            for(int j=0; j<n; j++){
-                if(i==0 or j==0 or i==m-1 or j==n-1)
-                    if(A[i][j]==1)
-                        dfs(i,j, A);
-            }
-       
-        int ans=0;
-        for(int i=0; i<m; i++)
-            for(int j=0; j<n; j++){
-                    if(A[i][j]==1)
-                        ans++;
-            }        
+    int numEnclaves(vector<vector<int>>& grid) {
+        m = grid.size();
+        n = grid[0].size();
         
-        return ans;
+        for(int i=0; i<m; i++)
+            for(int j=0; j<n; j++){
+                if(i==0 || j==0 || i==m-1 || j==n-1){
+                    if(grid[i][j]) DFS(i, j, grid);
+                }
+            }
+        
+        
+        int cnt=0;
+        for(int i=0; i<m; i++)
+            for(int j=0; j<n; j++){
+                cnt += grid[i][j];
+            }
+        
+        return cnt;
+        
     }
 };

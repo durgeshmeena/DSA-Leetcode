@@ -1,36 +1,34 @@
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& M) {
-        int r=M.size(),c=M[0].size();
-        vector<vector<int>>dist(r,vector<int>(c,-1));
-        queue<pair<int, int>>q;
+        int m = M.size();
+        int n = M[0].size();
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        queue<vector<int>> q;
+        vector<int> dir = {-1,0,1,0,-1};
         
-        for(int i=0;i<r;i++)
-            for(int j=0;j<c;j++){
-                if(M[i][j]==0)
-                    dist[i][j]=0,q.push({i,j});
-            }
-        
-        vector<int>dir({-1,0,1,0,-1});
-        
-        while(!q.empty()){
-            auto node = q.front();
-            q.pop();
-            int i,j;
-            i = node.first, j=node.second;
-            
-            for(int k=0;k<4;k++){
-                int ni,nj;
-                ni = i+dir[k], nj = j+dir[k+1];
-                
-                if(ni<0 || nj<0 || ni>=r || nj>=c || dist[ni][nj]!=-1)
-                    continue;
-                else {
-                    // if(dist[ni][nj] > dist[i][j]+1){
-                        dist[ni][nj] = dist[i][j]+1;
-                        q.push({ni,nj});
-                    // }
+        for(int i=0; i<m; i++)
+            for(int j=0; j<n; j++){
+                if(M[i][j]==0){
+                    dist[i][j]=0;
+                    q.push({i,j});
                 }
+            }
+        int i1,j1, i2,j2;
+        while(q.size()){
+            int sz = q.size();
+            for(int i=0; i<sz; i++){
+                auto v = q.front(); q.pop();
+                i1=v[0]; j1=v[1];
+                
+                for(int d=0; d<4; d++){
+                    i2 = i1+dir[d]; j2 = j1+dir[d+1];
+                    if(i2>=0 && j2>=0 && i2<m && j2<n && dist[i2][j2]==INT_MAX){
+                        dist[i2][j2] = 1+dist[i1][j1];
+                        q.push({i2,j2});
+                    }
+                }
+                
             }
         }
         

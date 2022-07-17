@@ -1,50 +1,45 @@
 class Solution {
 public:
     
+    vector<int>safe;
     
-    vector<int>cyl;
-    
-    bool inCycle(int node, vector<vector<int>>& adj, vector<bool>& vis, vector<bool>& dfsvis) {
-        if(cyl[node]==1)return cyl[node];
+    int DFS(int i, vector<int>& color, vector<vector<int>>& adj){
+        if(adj[i].size()==0)
+            return color[i] = 2;
         
-        vis[node]=true;
-        dfsvis[node]=true;
-        for(auto v:adj[node]){
-            if(!vis[v]){
-                if(inCycle(v,adj,vis,dfsvis))
-                    return cyl[node] = 1;         
+        color[i] = 1;
+        
+        for(auto next:adj[i]){
+            if(color[next]==0 && DFS(next, color, adj)==1 ){
+                return color[i]=1;
             }
-            else
-                if(dfsvis[v])return cyl[node]=1;    
-            
-                
+            else if(color[next]==1)
+                return color[i]=1;
         }
         
-        dfsvis[node]=false;    
-        return cyl[node] = false;
-        
+        return color[i]=2;
     }
     
-    vector<int> eventualSafeNodes(vector<vector<int>>& adj) {
-        int n=adj.size();
-        vector<bool>vis(n);
-        vector<bool>dfsvis(n);
-        cyl.resize(n);
+    
+    
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> color(n);
         
-        for(int i=0;i<n;i++)
-            if(!vis[i])
-                bool a = inCycle(i,adj,vis,dfsvis);
-        
-        vector<int>ans;
+        for(int i=0; i<n; i++){
+            if(color[i]==0){
+                if(DFS(i, color, graph)==2)
+                    safe.push_back(i);
+            }
+            else{
+                if(color[i]==2)
+                    safe.push_back(i);
+            }
             
-        for(int i=0;i<n;i++)
-                if(!cyl[i])ans.push_back(i);
+             
+                        
+        }
         
-        sort(ans.begin(), ans.end());
-        
-        return ans;
-            
-        
-        
+        return safe;
     }
 };

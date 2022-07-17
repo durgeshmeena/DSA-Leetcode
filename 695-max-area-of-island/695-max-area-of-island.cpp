@@ -1,35 +1,28 @@
 class Solution {
 public:
-    int row,col;
+    int m,n;
     
-    int dfs(int i, int j, vector<vector<int>>& grid){
-        if(i<0 || j<0 || i>=row || j>=col || grid[i][j]==0)
+    int DFS(int i, int j, vector<vector<int>>& B){
+        if(i<0 || j<0 || i>=m || j>= n || B[i][j] != 1)
             return 0;
+        B[i][j]=0;
         
-        grid[i][j]=0;
-        
-        int j1 = dfs(i,j-1,grid);
-        int j2 = dfs(i,j+1,grid);
-        int i1 = dfs(i-1,j,grid);
-        int i2 = dfs(i+1,j,grid);
-        
-        return 1+i1+i2+j1+j2;
-        
+        return 1 + DFS(i, j-1, B) + DFS(i, j+1, B) + DFS(i-1, j, B) + DFS(i+1, j, B);
     }
     
-    int maxAreaOfIsland(vector<vector<int>>& grid) {
-        row=grid.size();
-        col=grid[0].size();
+    int maxAreaOfIsland(vector<vector<int>>& B) {
+        m = B.size();
+        n = B[0].size();
         
-        int island=0;
-        
-        for(int i=0; i<row;i++)
-            for(int j=0;j<col;j++)
-                if(grid[i][j]==1){
-                    island = max(island, dfs(i,j,grid));
+        int res=0;
+        for(int i=0; i<m; i++)
+            for(int j=0; j<n; j++){
+                if(B[i][j]){
+                    res = max(res, DFS(i, j, B));
                 }
-                    
-        return island;
+            }
+        
+        return res;
+        
     }
-    
 };

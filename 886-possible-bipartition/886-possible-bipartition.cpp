@@ -1,45 +1,39 @@
 class Solution {
 public:
-    vector<int>parent;
+    
+    bool bipartite(int i, int val, vector<int>& color, vector<vector<int>>& adj){
+        color[i] = val;
+        for(auto next:adj[i]){
+            if(color[next]==INT_MAX && !bipartite(next, val^1, color, adj)){
+                cout << i << "-> " << "False\n";
+                return false;
+            }
+                
+            else if(color[next]==val){
+                cout << i << "-> " << "False\n";
+                return false;
+            }
+                
+        }
+        cout << i << "-> " << "True\n";
+        return true;
+    }
     
     bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
-        parent.resize(n+1);
+        vector<int>color(n+1, INT_MAX);
         vector<vector<int>>adj(n+1);
         
-        for(int i=0;i<=n;i++)
-            parent[i]=i;
-        
-        for(auto x:dislikes){
-            adj[x[0]].push_back(x[1]);
-            adj[x[1]].push_back(x[0]);
+        for(auto v:dislikes){
+            adj[v[0]].push_back(v[1]);
+            adj[v[1]].push_back(v[0]);
         }
-
         
-        
-        for(int i=1;i<=n;i++)
-            for(int j=0; j<adj[i].size(); j++){
-                if(find(i)==find(adj[i][j]))
-                    return false;
-                if(adj[i].size()>0)
-                    uni(adj[i][0], adj[i][j]);
-            }
-            
-        
+        for(int i=1; i<=n; i++){
+            if(color[i]==INT_MAX && !bipartite(i, 0, color, adj))
+                return false;
+        }
+   
         return true;
-    
-    }
-    
-    
-    int find(int x){
-        if(parent[x]==x)
-            return x;
-        else
-            return parent[x]=find(parent[x]);
-    }
-    
-    void uni(int a, int b){
-        a = find(a);
-        b = find(b);
-        if(a!=b) parent[b]=a;
+        
     }
 };

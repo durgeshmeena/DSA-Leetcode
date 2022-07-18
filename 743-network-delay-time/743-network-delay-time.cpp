@@ -1,45 +1,36 @@
 class Solution {
 public:
-    
-    
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<int>dist(n+1,INT_MAX);
-        // queue<int>q;
-        priority_queue< pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
+        vector<int>dist(n+1, INT_MAX);
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         
-        vector<vector<pair<int,int>>>adj(n+1);
-        
-        for(auto x:times){
-           adj[x[0]].push_back({x[1],x[2]}); 
+        vector<vector<pair<int, int>>> adj(n+1);
+        for(auto v:times){
+            adj[v[0]].push_back({v[1], v[2]});
         }
         
-     
         dist[k]=0;
-        pq.push({0,k});
-        
-        while(!pq.empty()) {
-            auto node = pq.top();
+        pq.push({0, k});
+        while(pq.size()){
+            int prevDist = pq.top().first;
+            int prevNode = pq.top().second;
             pq.pop();
             
-            for(auto trg:adj[node.second]){
-                if(dist[trg.first] > node.first+trg.second){
-                    dist[trg.first] = node.first+trg.second;
-                    pq.push({dist[trg.first], trg.first});
+            for(auto next:adj[prevNode]){
+                if(dist[next.first] > next.second+dist[prevNode]){
+                    dist[next.first] = next.second+dist[prevNode];
+                    pq.push({dist[next.first], next.first});
                 }
             }
+            
+            
         }
         
-        // for(auto x:dist)
-        //     cout << x << " ";
+        int res = *max_element(dist.begin()+1, dist.end());
         
-        int ans = *max_element(dist.begin()+1, dist.end());
-        return ans==INT_MAX?-1:ans;
+        return res != INT_MAX ? res : -1;
         
         
         
-        
-        
-        
-
     }
 };

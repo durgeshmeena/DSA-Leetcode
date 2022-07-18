@@ -1,46 +1,33 @@
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        int n = numCourses;
-        vector<vector<int>>adj(n);
-        queue<int>q;
+        int n= numCourses;
+        vector<int>crs;
+        vector<vector<int>> adj(n);
         vector<int>indegree(n);
-        vector<int>topo(n);
-        
-        for(auto x:prerequisites)
-            adj[x[1]].push_back(x[0]);
-        
-        
-        for(int u=0;u<n;u++){
-            for(auto v:adj[u])
-                indegree[v]++;
+        for(auto v:prerequisites){
+            adj[v[1]].push_back(v[0]);
+            indegree[v[0]]++;
         }
         
-        for(int i=0;i<n;i++)
-            if(indegree[i]==0)
-                q.push(i);
+        queue<int> q;
         
-        int cnt=0;
-        int k=0;
-        while(!q.empty()){
-            int u = q.front();
-            q.pop();
-            topo[k++]=u;
-            cnt++;
-            for(auto v:adj[u]){
-                indegree[v]--;
-                if(indegree[v]==0)
-                    q.push(v);
+        for(int i=0; i<n; i++)
+            if(indegree[i]==0)q.push(i);
+        
+        while(q.size()){
+            int node = q.front(); q.pop();
+            crs.push_back(node);
+            for(auto next:adj[node]){
+                indegree[next]--;
+                if(indegree[next]==0)q.push(next);
             }
         }
         
-        if(cnt==n)
-            return topo;
-        
-        return {};
-        
-        
-        
+        if(crs.size()!=n)
+            return {};
+        return crs;
+
         
     }
 };

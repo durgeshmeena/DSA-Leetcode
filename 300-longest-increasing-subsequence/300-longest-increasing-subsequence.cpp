@@ -20,16 +20,17 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         this->arr = nums;
         int n = nums.size();
-        dp.resize(n+1, 1);
-        // return LIS(nums.size()-1, -1);
+        dp.resize(n+1, INT_MIN);
+        return LIS(nums.size()-1, -1);
         
-        for(int i=0; i<n; i++){
-            for(int j=0; j<i; j++){
-                if(arr[i]>arr[j])
-                    dp[i] = max(1+dp[j], dp[i]);
-            }
-        }
-        return *max_element(dp.begin(), dp.end());
+        
+        // for(int i=0; i<n; i++){
+        //     for(int j=0; j<i; j++){
+        //         if(arr[i]>arr[j])
+        //             dp[i] = max(1+dp[j], dp[i]);
+        //     }
+        // }
+        // return *max_element(dp.begin(), dp.end());
         
                 
             

@@ -21,7 +21,19 @@ public:
         dp.resize(n,-1);
         arr = nums;
         
-        return solve(n-1);
+        // return solve(n-1);
+        
+        dp[0] = arr[0];
+        
+        if(n==1)
+            return dp[0];
+        
+        dp[1] = max(arr[0], arr[1]);
+        for(int i=2; i<n; i++){
+            dp[i] = max(dp[i-1], arr[i]+dp[i-2]);
+        }
+        
+        return dp[n-1];
         
     }
 };

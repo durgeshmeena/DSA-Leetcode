@@ -20,7 +20,7 @@ public:
     int mctFromLeafValues(vector<int>& arr) {
         int n = arr.size();
     
-        // memset(dp, -1, sizeof(dp));
+        memset(dp, 0, sizeof(dp));
         memset(maxi, 0, sizeof(maxi));
         
         for(int i=0; i<n; i++){
@@ -31,13 +31,25 @@ public:
         }
             
         
-        for (int l = 1; l < n; ++l) {
-           for (int i = 0; i < n - l; ++i) {
-               int j = i + l;
-               dp[i][j] = INT_MAX;
+        // for (int l = 1; l < n; ++l) {
+        //    for (int i = 0; i < n - l; ++i) {
+        //        int j = i + l;
+        //        dp[i][j] = INT_MAX;
+        //        for (int k = i; k < j; k++) {
+        //            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k+1][j] + maxi[i][k] * maxi[k+1][j]);
+        //        }
+        //    }
+        // }
+        // return dp[0][n-1];
+        
+        
+        for (int i = n-2; i >= 0; i--) {
+           for (int j = i+1; j < n ; j++) {
+               int tmp = INT_MAX;
                for (int k = i; k < j; k++) {
-                   dp[i][j] = min(dp[i][j], dp[i][k] + dp[k+1][j] + maxi[i][k] * maxi[k+1][j]);
+                   tmp = min(tmp, dp[i][k] + dp[k+1][j] + maxi[i][k] * maxi[k+1][j]);
                }
+               dp[i][j] = tmp;
            }
         }
         return dp[0][n-1];

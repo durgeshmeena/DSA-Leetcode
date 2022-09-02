@@ -1,48 +1,40 @@
 class Solution {
 public:
-    
-    string longestPalindrome(string s) {
-        int n = s.length();
-        vector<vector<int>>dp(n, vector<int>(n));
-        int mx=1;
-        
-        for(int i=0; i<n; i++)
-            dp[i][i]=1;
-        
+    string longestPalindrome(string A) {
+        int n = A.size();
+        if(n==1)return A;
+
+
+        vector<vector<int>> dp(n, vector<int>(n,0));
+
+        for(int k=0; k<n; k++)dp[k][k]=1;
+
         for(int i=n-2; i>=0; i--){
-            for(int j=i+1; j<n; j++) {
-                if(s[i] == s[j] ) {
-                    if( j-i < 2 || dp[i+1][j-1]) {
-                        dp[i][j] = 2 + dp[i+1][j-1];
-                        mx = max(mx, dp[i][j]);
-                    }
-                        
-                    
-                }   
-                else
-                    dp[i][j] = 0;
+            for(int j=i+1; j<n; j++){
+                if(A[i] == A[j] and ( dp[i+1][j-1]==j-i-1 || j-i==1  )){
+                    dp[i][j] = 2 + dp[i+1][j-1];
+                }
+                else{
+                    dp[i][j] = max(dp[i][j-1], dp[i+1][j]);
+                }
             }
         }
-        
-        cout << mx << "\n";
-        
-        auto printLcs = [&](){
-            string str="";            
-            for(int i=0; i<n; i++)
-                for(int j=n-1; j>=0; j--){
-                    if(dp[i][j]==mx){
-                        while(mx--){
-                            str+=s[i];
-                            i++,j--;
-                        }
-                        break;
-                    }
-                }
-            return str;
-            
-        };
-        
-        return  printLcs();
-       
+
+
+        int len = dp[0][n-1];
+
+        int i=0, j=n-1;
+        while(i<n and j>0 and  len == max(dp[i][j-1], dp[i+1][j])  ){
+            if(dp[i][j] == dp[i][j-1]){
+                j--;
+            }
+            else{
+                i++;
+            }
+        }
+
+        string s = A.substr(i, len);
+        cout << s << endl;    
+        return s;        
     }
 };

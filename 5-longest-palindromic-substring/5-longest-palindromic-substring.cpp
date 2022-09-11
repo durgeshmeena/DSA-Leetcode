@@ -1,40 +1,30 @@
 class Solution {
 public:
-    string longestPalindrome(string A) {
-        int n = A.size();
-        if(n==1)return A;
+    string longestPalindrome(string s) {
+        int n = s.size();
+        if(n==1)return s;
 
+        string str = "";
+        str += s[0];
+        vector<vector<bool>> dp(n, vector<bool>(n,0));
 
-        vector<vector<int>> dp(n, vector<int>(n,0));
-
-        for(int k=0; k<n; k++)dp[k][k]=1;
+        for(int k=0; k<n; k++)dp[k][k]=true;
 
         for(int i=n-2; i>=0; i--){
             for(int j=i+1; j<n; j++){
-                if(A[i] == A[j] and ( dp[i+1][j-1]==j-i-1 || j-i==1  )){
-                    dp[i][j] = 2 + dp[i+1][j-1];
+                if(s[i] == s[j] and ( dp[i+1][j-1]==true || j-i==1  )){
+                    dp[i][j] = true;
+                    if(str.size() < j-i+1){
+                        str = s.substr(i, j-i+1);
+                    }
+                    
                 }
                 else{
-                    dp[i][j] = max(dp[i][j-1], dp[i+1][j]);
+                    dp[i][j] = false;
                 }
             }
-        }
-
-
-        int len = dp[0][n-1];
-
-        int i=0, j=n-1;
-        while(i<n and j>0 and  len == max(dp[i][j-1], dp[i+1][j])  ){
-            if(dp[i][j] == dp[i][j-1]){
-                j--;
-            }
-            else{
-                i++;
-            }
-        }
-
-        string s = A.substr(i, len);
-        cout << s << endl;    
-        return s;        
+        }        
+        
+        return str;
     }
 };

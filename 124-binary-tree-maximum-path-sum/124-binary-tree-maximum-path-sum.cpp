@@ -11,24 +11,32 @@
  */
 class Solution {
 public:
-    int ans = INT_MIN;
     
-    int maxSumNode(TreeNode* root){
-        if(!root)
-            return 0;
+    int ans=INT_MIN;
+    
+    int pathSum(TreeNode* root){
+        if(!root) return 0;
         
-        int l = max( maxSumNode(root->left), 0);
-        int r = max( maxSumNode(root->right), 0);
+        int lSum = pathSum(root->left);
+        int rSum = pathSum(root->right);
         
-        ans = max(ans, root->val+l+r);
+        lSum = max(lSum, 0);
+        rSum = max(rSum, 0);
         
-        return root->val + max(l, r);
-
+        int val = root->val + max(lSum, rSum);
+        
+       ans = max(ans, root->val+lSum+rSum);
+        
+        return val;        
     }
     
+    
+    
     int maxPathSum(TreeNode* root) {
+
+        int r = pathSum(root);
         
-        int val = maxSumNode(root);
         return ans;
+        
     }
 };

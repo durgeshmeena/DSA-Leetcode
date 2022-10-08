@@ -14,13 +14,32 @@ public:
         return dp[n-1];
     }
     
+    int rob1_td(int i, vector<int> &v, vector<int> &dp){
+        if(i==0) return dp[i] = v[0];
+        else if(i==1) return dp[i] = max(v[0], v[1]);
+        
+        if(dp[i]!=-1)return dp[i];
+        
+        return dp[i] = max(rob1_td(i-1, v, dp), v[i]+rob1_td(i-2, v, dp));
+            
+    }
+    
     
     int rob(vector<int>& nums) {
-        if(nums.size()==1) return nums[0];
-        vector<int> v1(nums.begin(), nums.end()-1), v2(nums.begin()+1, nums.end());
-        int val1 = rob1(v1);
-        int val2 = rob1(v2);
+        int n = nums.size();
+        if(n==1) return nums[0];
         
+        vector<int> v1(nums.begin(), nums.end()-1), v2(nums.begin()+1, nums.end());
+        
+        vector<int> dp(n-1, -1);
+        int val1 = rob1_td(n-2, v1, dp);
+        
+        dp.clear();
+        dp.resize(n-1, -1);
+        // for(auto x:dp)cout << x <<" ";
+        // cout <<"\n";
+        int val2 = rob1_td(n-2, v2, dp);
+        // for(auto x:dp)cout << x <<" ";
         return max(val1, val2);
 
     }

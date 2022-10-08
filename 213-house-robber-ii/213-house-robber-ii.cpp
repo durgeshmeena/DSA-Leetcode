@@ -1,27 +1,27 @@
 class Solution {
 public:
     
-    int rb(vector<int>& nums){
-        int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(2));
-        dp[0][1] = nums[0];
-        for(int i=1; i<n; i++){
-            dp[i][0] = dp[i-1][1];
-            dp[i][1] = max(dp[i-1][1], dp[i-1][0]+nums[i]);
-        }
+    int rob1(vector<int>& v){
+        int n = v.size();
+        if(n==1)return v[0];
+        vector<int> dp(n);
+        dp[0] = v[0];
+        dp[1] = max(v[0], v[1]);
         
-        return max(dp[n-1][0], dp[n-1][1]);
+        for(int i=2; i<n; i++){
+            dp[i] = max(dp[i-1], dp[i-2]+v[i]);
+        }
+        return dp[n-1];
     }
     
+    
     int rob(vector<int>& nums) {
-        if(nums.size()==1)
-            return nums[0];
-        else if(nums.size()==2)
-            return max(nums[0], nums[1]);
+        if(nums.size()==1) return nums[0];
+        vector<int> v1(nums.begin(), nums.end()-1), v2(nums.begin()+1, nums.end());
+        int val1 = rob1(v1);
+        int val2 = rob1(v2);
         
-        vector<int> v(nums.begin()+1, nums.end());
-        nums.pop_back();
-        
-        return max(rb(nums), rb(v));
+        return max(val1, val2);
+
     }
 };

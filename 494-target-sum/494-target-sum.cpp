@@ -1,19 +1,23 @@
 class Solution {
 public:
     
-    void dfs(int i, int target, int &count, vector<int>& nums){
+    unordered_map<string, int> dp;
+    
+    int dfs(int i, int target, vector<int>& nums){
         if(i>=nums.size()){
-            if(target==0)count++;
-            return;
+            return target==0;
         }
-        dfs(i+1, target-nums[i], count, nums);
-        dfs(i+1, target+nums[i], count, nums);
+        string key = to_string(i)+"#"+to_string(target);
+        
+        if(dp.find(key) != dp.end())return dp[key];
+        
+        return dp[key] = dfs(i+1, target-nums[i], nums) + dfs(i+1, target+nums[i], nums);
     }
     
     int findTargetSumWays(vector<int>& nums, int target) {
-        int n = nums.size();
-        int count=0;
-        dfs(0, target, count, nums);
-        return count;
+      
+        
+        return dfs(0, target, nums);
+        
     }
 };

@@ -8,8 +8,8 @@ public:
             if(nums[i]>(v[v.size()-1]))
                 v.push_back(nums[i]);
             else {
-                auto it=lower_bound(v.begin(),v.end(),nums[i])-v.begin();
-                v[it]=nums[i];
+                auto it=lower_bound(v.begin(),v.end(),nums[i]);
+                *it = nums[i];
             }
         }
         return v.size();
